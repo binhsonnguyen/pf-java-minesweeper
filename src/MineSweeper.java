@@ -7,20 +7,27 @@ public class MineSweeper {
         final int MAP_WIDTH = map[0].length;
 
         String[][] mapReport = new String[1][MAP_WIDTH];
-        for (int xOrdinate = 0; xOrdinate < MAP_WIDTH; xOrdinate++) {
+        for (int xOrdinate = 0; xOrdinate < map[0].length; xOrdinate++) {
             String curentCell = map[0][xOrdinate];
             if (curentCell.equals("*")) {
                 mapReport[0][xOrdinate] = "*";
             } else {
+                final int[][] NEIGHBOURS_ORDINATE = {
+                        {0, xOrdinate - 1}, {0, xOrdinate + 1}
+                };
+
                 int minesAround = 0;
+                for (int i = 0; i < NEIGHBOURS_ORDINATE.length; i++) {
+                    int[] neighbourOrdinate = NEIGHBOURS_ORDINATE[i];
+                    int xOrdinateOfNeighbour = neighbourOrdinate[1];
+                    int yOrdinateOfNeighbour = neighbourOrdinate[0];
 
-                boolean hasNeighbourAtLeft = xOrdinate - 1 >= 0;
-                boolean hasMineAtLeft = hasNeighbourAtLeft && map[0][xOrdinate - 1].equals("*");
-                if (hasMineAtLeft) minesAround++;
+                    boolean isOutOfMapNeighbour = xOrdinateOfNeighbour < 0 || xOrdinateOfNeighbour == MAP_WIDTH;
+                    if (isOutOfMapNeighbour) continue;
 
-                boolean hasNeighbourAtRight = xOrdinate + 1 < MAP_WIDTH;
-                boolean hasMineAtRight = hasNeighbourAtRight && map[0][xOrdinate + 1].equals("*");
-                if (hasMineAtRight) minesAround++;
+                    boolean isMineOwnerNeighbour = map[yOrdinateOfNeighbour][xOrdinateOfNeighbour].equals("*");
+                    if (isMineOwnerNeighbour) minesAround++;
+                }
 
                 mapReport[0][xOrdinate] = String.valueOf(minesAround);
             }
