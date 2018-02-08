@@ -2,7 +2,7 @@ public class MineSweeper {
     public static void main(String[] args) {
         String[][] map = {
                 {"*", ".", "*", ".", "."},
-                {".", "*", ".", ".", "."}
+                {"*", "*", ".", ".", "*"}
         };
         final int MAP_HEIGHT = map.length;
         final int MAP_WIDTH = map[0].length;
@@ -15,7 +15,9 @@ public class MineSweeper {
                     mapReport[yOrdinate][xOrdinate] = "*";
                 } else {
                     final int[][] NEIGHBOURS_ORDINATE = {
-                            {yOrdinate, xOrdinate - 1}, {yOrdinate, xOrdinate + 1}
+                            {yOrdinate - 1, xOrdinate - 1}, {yOrdinate - 1, xOrdinate}, {yOrdinate - 1, xOrdinate + 1},
+                            {yOrdinate, xOrdinate - 1}, {yOrdinate, xOrdinate + 1},
+                            {yOrdinate + 1, xOrdinate - 1}, {yOrdinate + 1, xOrdinate}, {yOrdinate + 1, xOrdinate + 1},
                     };
 
                     int minesAround = 0;
@@ -24,7 +26,10 @@ public class MineSweeper {
                         int xOrdinateOfNeighbour = neighbourOrdinate[1];
                         int yOrdinateOfNeighbour = neighbourOrdinate[0];
 
-                        boolean isOutOfMapNeighbour = xOrdinateOfNeighbour < 0 || xOrdinateOfNeighbour == MAP_WIDTH;
+                        boolean isOutOfMapNeighbour = xOrdinateOfNeighbour < 0
+                                || xOrdinateOfNeighbour == MAP_WIDTH
+                                || yOrdinateOfNeighbour < 0
+                                || yOrdinateOfNeighbour == MAP_HEIGHT;
                         if (isOutOfMapNeighbour) continue;
 
                         boolean isMineOwnerNeighbour = map[yOrdinateOfNeighbour][xOrdinateOfNeighbour].equals("*");
